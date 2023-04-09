@@ -7,11 +7,6 @@ const stream = pinoPretty({
     colorizeObjects: true,
 });
 
-const logger = pino(
-    {
-        timestamp: () => `, "time": "${dayjs().format()}`,
-    },
-    stream
-);
+const logger = pino({ timestamp: () => `, "time": "${dayjs().format()}` }, stream);
 
 export default logger;

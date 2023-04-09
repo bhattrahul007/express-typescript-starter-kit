@@ -5,7 +5,9 @@ import appSettings from './AppSettings';
 const configurations = {
     app: appSettings,
     jwt: jwtSettings,
-    ...databaseSettings,
+    datasource: {
+        ...databaseSettings,
+    },
 };
 
 export type Configurations = typeof configurations;

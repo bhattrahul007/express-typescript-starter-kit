@@ -1,6 +1,4 @@
-import MongoDBConnector from './common/database/MongoDBConnector';
-import { RequestDispatcher } from './common/interface';
-import { Configurations } from './common/settings';
+import { MongoDBConfiguration, Dispatcher, Configurations } from './common';
 import Express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
@@ -11,65 +9,49 @@ import cors from 'cors';
 import path from 'path';
 
 export type ServerOptions = {
-    requestDispatchers: RequestDispatcher[];
+    dispatchers?: Dispatcher[];
 };
 
 class Server {
-    private __configuration: Configurations;
-    private __requestDispatcher: RequestDispatcher[];
-    private __application: Application;
+    private app: Application;
+    private config: Configurations;
+    private dispatchers: Dispatcher[];
 
-    constructor(
-        config: Configurations,
-        options: ServerOptions = { requestDispatchers: [] }
-    ) {
-        this.__configuration = config;
-        this.__application = Express();
-        this.__requestDispatcher = options.requestDispatchers;
+    constructor(config: Configurations, options?: ServerOptions) {
+        this.config = config;
+        this.app = Express();
+        this.dispatchers = [...(options?.dispatchers || [])];
     }
 
     public applyMiddlewares(): void {
-        this.__application.use(helmet());
-        this.__application.use(
-            helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
-        );
-        this.__application.use(morgan('dev'));
-        this.__application.use(cors());
-        this.__application.use(cookieParser());
-        this.__application.use(Express.json());
-        this.__application.use(
-            Express.urlencoded({ limit: '30mb', extended: true })
-        );
-        this.__application.use(compression());
+        this.app.use(helmet());
+        this.app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+        this.app.use(morgan('dev'));
+        this.app.use(cors());
+        this.app.use(cookieParser());
+        this.app.use(Express.json());
+        this.app.use(Express.urlencoded({ limit: '30mb', extended: true }));
+        this.app.use(compression());
     }
 
     public applyRequestDispatchers(): void {
-        this.__requestDispatcher.forEach((requestDispatcher) => {
-            this.__application.use(
-                path.join('/v1/api', requestDispatcher.getPath()),
-                requestDispatcher.getRouter()
-            );
+        this.dispatchers.forEach((requestDispatcher) => {
+            this.app.use(path.join('/v1/api', requestDispatcher.getPath()), requestDispatcher.getRouter());
         });
     }
 
     public applyErrorHandlers(): void {}
 
     public start() {
-        if (this.__configuration.mongodb) {
-            const { ...datasourceConfig } = this.__configuration.mongodb;
-            new MongoDBConnector(datasourceConfig).connect().then(() => {
-                logger.info(
-                    `Trying to Start the server ["env":${this.__configuration.app.env}, 
-                        "port": ${this.__configuration.app.port}]`
-                );
-                this.__application.listen(this.__configuration.app.port, () => {
-                    logger.info('Server connection successfully.');
-                    logger.info(
-                        `Server is up and running at 'http://localhost:${this.__configuration.app.port}'.`
-                    );
-                });
+        const datasource = this.config.datasource;
+        new MongoDBConfiguration().connect(datasource['mongodb']).then(() => {
+            logger.info(
+                `Starting OpenSchool application ['env':'${this.config.app.env}', 'port':'${this.config.app.port}'].`
+            );
+            this.app.listen(this.config.app.port, async () => {
+                logger.info(`OpenSchool application is up and running at 'http://localhost:${this.config.app.port}'.`);
             });
-        }
+        });
     }
 }
 

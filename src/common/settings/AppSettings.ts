@@ -11,9 +11,7 @@ export type AppSettings = {
 };
 
 const appEnvVarSchema = object({
-    APP_NODE_ENV: zenum(['development', 'production', 'test'])
-        .optional()
-        .default('development'),
+    APP_NODE_ENV: zenum(['development', 'production', 'test']).optional().default('development'),
     APP_PORT: string().optional().default('6001'),
 });
 

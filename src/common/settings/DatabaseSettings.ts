@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export type DatabaseSettings = {
-    mongodb?: {
-        databaseUrl: string;
-        databaseName?: string;
+    [key: string]: {
+        url: string;
+        dbname?: string;
         username?: string;
         password?: string;
     };
@@ -31,8 +31,8 @@ try {
 const databaseSettings: DatabaseSettings = {
     ...(databaseEnvVar.MONGODB_URL && {
         mongodb: {
-            databaseUrl: databaseEnvVar.MONGODB_URL,
-            databaseName: databaseEnvVar.MONGODB_DATABASE_NAME,
+            url: databaseEnvVar.MONGODB_URL,
+            dbname: databaseEnvVar.MONGODB_DATABASE_NAME,
             username: databaseEnvVar.MONGODB_USERNAME,
             password: databaseEnvVar.MONGODB_PASSWORD,
         },
