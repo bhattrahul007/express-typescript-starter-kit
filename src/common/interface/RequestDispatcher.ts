@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 
 export interface RequestDispatcher {
     getPath(): string;
+
     getRouter(): Router;
 }
 

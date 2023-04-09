@@ -1,41 +1,47 @@
 {
-  "name": "fluid",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^4.17.17",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "eslint": "^8.38.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "jest": "^29.5.0",
-    "pino": "^8.11.0",
-    "pino-pretty": "^10.0.0",
-    "prettier": "^2.8.7",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4"
-  },
-  "dependencies": {
-    "compression": "^1.7.4",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "helmet": "^6.1.2",
-    "jsonwebtoken": "^9.0.0",
-    "morgan": "^1.10.0",
-    "nanoid": "^4.0.2",
-    "zod": "^3.21.4"
-  }
+    "name": "fluid",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/compression": "^1.7.2",
+        "@types/cookie-parser": "^1.4.3",
+        "@types/cors": "^2.8.13",
+        "@types/express": "^4.17.17",
+        "@types/jest": "^29.5.0",
+        "@types/morgan": "^1.9.4",
+        "@types/node": "^18.15.11",
+        "@typescript-eslint/eslint-plugin": "^5.57.1",
+        "@typescript-eslint/parser": "^5.57.1",
+        "eslint": "^8.38.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "jest": "^29.5.0",
+        "pino": "^8.11.0",
+        "pino-pretty": "^10.0.0",
+        "prettier": "^2.8.7",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.0.4"
+    },
+    "dependencies": {
+        "compression": "^1.7.4",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dayjs": "^1.11.7",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "helmet": "^6.1.2",
+        "jsonwebtoken": "^9.0.0",
+        "mongoose": "^7.0.3",
+        "morgan": "^1.10.0",
+        "nanoid": "^4.0.2",
+        "zod": "^3.21.4"
+    }
 }
