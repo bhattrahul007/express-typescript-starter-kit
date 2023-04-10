@@ -9,6 +9,8 @@ import {
     TDataSourceConnector,
     TDataSourceConfiguration,
     TDataSourceManager,
+    TRequest,
+    TResponse,
 } from './interface';
 
 export type {
@@ -21,6 +23,8 @@ export type {
     TPutRequest,
     TDataSourceConfiguration,
     TDataSourceManager,
+    TRequest,
+    TResponse,
 };
 
 export { MongoDBConnector, configurations, DataSourceManager };

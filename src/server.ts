@@ -24,6 +24,7 @@ class Server {
         this.dispatchers = [...(options?.dispatchers || [])];
         this.dataSourceManager = new DataSourceManager(this.config.datasource);
         this.applyMiddlewares();
+        this.applyRequestDispatchers();
     }
 
     public applyMiddlewares(): void {
@@ -38,8 +39,8 @@ class Server {
     }
 
     public applyRequestDispatchers(): void {
-        this.dispatchers.forEach((requestDispatcher) => {
-            this.app.use(path.join('/v1/api', requestDispatcher.getPath()), requestDispatcher.getRouter());
+        this.dispatchers.forEach((dispatcher) => {
+            this.app.use(path.join('/v1/api', dispatcher.getPath()).toString(), dispatcher.getRouter());
         });
     }
 
