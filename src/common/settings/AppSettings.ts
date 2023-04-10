@@ -5,7 +5,7 @@ dotenv.config();
 
 export type NODE_ENV = 'production' | 'development' | 'test';
 
-export type AppSettings = {
+export type TAppSettings = {
     env: NODE_ENV;
     port: number;
 };
@@ -24,7 +24,7 @@ try {
     process.exit(1);
 }
 
-const appSettings: AppSettings = {
+const appSettings: TAppSettings = {
     env: appEnvVar.APP_NODE_ENV as NODE_ENV,
     port: Number(appEnvVar.APP_PORT),
 };

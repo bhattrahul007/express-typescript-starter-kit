@@ -1,4 +1,4 @@
-import { TDataSourceConfiguration } from '../interface/DataSource';
+import { TDataSourceConfiguration } from '../interface';
 
 class DataSourceConfiguration implements TDataSourceConfiguration {
     platformURI: string;

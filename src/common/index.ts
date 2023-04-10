@@ -1,8 +1,15 @@
-import { TDispatcher, TDeleteRequest, TGetRequest, TPostRequest, TPutRequest } from './interface/Dispatcher';
-import { TDataSourceConnector, TDataSourceConfiguration, TDataSourceManager } from './interface/DataSource';
+import { MongoDBConnector, DataSourceManager } from './database';
 import configurations, { TConfigurations } from './settings';
-import MongoDBConnector from './database/MongoDBConnector';
-import DataSourceManager from './database/DataSourceManager';
+import {
+    TDispatcher,
+    TDeleteRequest,
+    TGetRequest,
+    TPostRequest,
+    TPutRequest,
+    TDataSourceConnector,
+    TDataSourceConfiguration,
+    TDataSourceManager,
+} from './interface';
 
 export type {
     TDataSourceConnector,

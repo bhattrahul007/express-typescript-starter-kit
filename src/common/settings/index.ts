@@ -1,6 +1,6 @@
-import datasouceSettings from './DataSourceSettings';
-import jwtSettings from './JwtSettings';
-import appSettings from './AppSettings';
+import datasouceSettings, { TDataSourceSettings } from './DataSourceSettings';
+import jwtSettings, { TJwtSettings } from './JwtSettings';
+import appSettings, { TAppSettings } from './AppSettings';
 
 const configurations = {
     app: appSettings,
@@ -10,6 +10,7 @@ const configurations = {
     },
 };
 
-export type TConfigurations = typeof configurations;
+type TConfigurations = typeof configurations;
 
+export type { TAppSettings, TDataSourceSettings, TJwtSettings, TConfigurations };
 export default configurations;

@@ -1,6 +1,6 @@
 import DataSourceConfiguration from '../configuration/DataSourceConfiguration';
-import { TDataSourceSettings } from '../settings/DataSourceSettings';
-import { TDataSourceConnector } from '../interface/DataSource';
+import { TDataSourceSettings } from '../settings';
+import { TDataSourceConnector } from '../interface';
 import MongoDBConnector from './MongoDBConnector';
 
 const TDataSourcePlatformDriver = {

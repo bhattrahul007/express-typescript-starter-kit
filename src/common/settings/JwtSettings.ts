@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export type JwtSettings = {
+export type TJwtSettings = {
     secret: string;
     expiresIn: {
         refresh: number;
@@ -36,7 +36,7 @@ try {
     process.exit(1);
 }
 
-const jwtSettings: JwtSettings = {
+const jwtSettings: TJwtSettings = {
     secret: jwtEnvVar.JWT_SECRET_KEY,
     expiresIn: {
         refresh: Number(jwtEnvVar.JWT_REFRESH_EXPIRESIN),
