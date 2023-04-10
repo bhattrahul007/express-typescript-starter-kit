@@ -1,4 +1,4 @@
-import { MongoDBConfiguration, Dispatcher, Configurations } from './common';
+import { TConfigurations, TDispatcher, TDataSourceManager, DataSourceManager } from './common';
 import Express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
@@ -9,18 +9,21 @@ import cors from 'cors';
 import path from 'path';
 
 export type ServerOptions = {
-    dispatchers?: Dispatcher[];
+    dispatchers?: TDispatcher[];
 };
 
 class Server {
     private app: Application;
-    private config: Configurations;
-    private dispatchers: Dispatcher[];
+    private config: TConfigurations;
+    private dispatchers: TDispatcher[];
+    private dataSourceManager: TDataSourceManager;
 
-    constructor(config: Configurations, options?: ServerOptions) {
+    constructor(config: TConfigurations, options?: ServerOptions) {
         this.config = config;
         this.app = Express();
         this.dispatchers = [...(options?.dispatchers || [])];
+        this.dataSourceManager = new DataSourceManager(this.config.datasource);
+        this.applyMiddlewares();
     }
 
     public applyMiddlewares(): void {
@@ -43,15 +46,22 @@ class Server {
     public applyErrorHandlers(): void {}
 
     public start() {
-        const datasource = this.config.datasource;
-        new MongoDBConfiguration().connect(datasource['mongodb']).then(() => {
-            logger.info(
-                `Starting OpenSchool application ['env':'${this.config.app.env}', 'port':'${this.config.app.port}'].`
-            );
-            this.app.listen(this.config.app.port, async () => {
-                logger.info(`OpenSchool application is up and running at 'http://localhost:${this.config.app.port}'.`);
+        this.dataSourceManager
+            .connectToDataSources()
+            .then(() => {
+                logger.info(
+                    `Starting OpenSchool application ['env':'${this.config.app.env}', 'port':'${this.config.app.port}'].`
+                );
+                this.app.listen(this.config.app.port, async () => {
+                    logger.info(
+                        `OpenSchool application is up and running at 'http://localhost:${this.config.app.port}'.`
+                    );
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                process.exitCode = 1;
             });
-        });
     }
 }
 

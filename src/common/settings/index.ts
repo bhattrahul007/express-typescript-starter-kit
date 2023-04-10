@@ -1,4 +1,4 @@
-import databaseSettings from './DatabaseSettings';
+import datasouceSettings from './DataSourceSettings';
 import jwtSettings from './JwtSettings';
 import appSettings from './AppSettings';
 
@@ -6,10 +6,10 @@ const configurations = {
     app: appSettings,
     jwt: jwtSettings,
     datasource: {
-        ...databaseSettings,
+        ...datasouceSettings,
     },
 };
 
-export type Configurations = typeof configurations;
+export type TConfigurations = typeof configurations;
 
 export default configurations;
