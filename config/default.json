@@ -1,0 +1,15 @@
+{
+  "app": {
+    "env": "development",
+    "port": 6001,
+
+    "controllers": []
+  },
+
+  "datasource": {
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "dbname": "openschool"
+  }
+}
