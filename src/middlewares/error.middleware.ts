@@ -4,7 +4,7 @@ import Logger from '../common/logger';
 import httpStatus from 'http-status';
 import config from 'config';
 
-const env = config.get('app.env');
+const env = config.get('app.server.env');
 
 const logger = new Logger({ loggerLabel: 'ErrorHandler: ', loggerLevel: 'error', consoleLog: true })._logger;
 

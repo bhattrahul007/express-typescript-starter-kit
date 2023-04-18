@@ -1,45 +1,39 @@
 import { errorConvertor } from './middlewares/errorConvertor.middleware';
-import { DataSourceOptions } from './common/datasource/datasource-types';
 import MongoDBConnect from './common/datasource/mongoose-connect';
 import { errorHandler } from './middlewares/error.middleware';
-import globalConfig from './common/app-configuration';
+import { _webAppConfig } from './common/configuration';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import Logger from './common/logger';
 import express from 'express';
-import winston from 'winston';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import config from 'config';
 import cors from 'cors';
 
 class App {
-  private static logger: winston.Logger;
-
-  constructor() {
-    globalConfig._app = express();
-    App.logger = new Logger({ loggerLabel: 'Application: ', consoleLog: true })._logger;
-  }
+  private static logger = new Logger({ loggerLabel: 'Application: ', consoleLog: true })._logger;
 
   private async initDatasouce() {
-    const _options = config.get<DataSourceOptions>('datasource');
-    globalConfig._connectionDB = await new MongoDBConnect(_options).connect();
+    const datasourceConfig = _webAppConfig.getDataSourceConfig();
+    if (datasourceConfig) {
+      await new MongoDBConnect(datasourceConfig).connect();
+    }
   }
 
   private initMiddlewares(): void {
-    globalConfig._app.use(helmet());
-    globalConfig._app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
-    globalConfig._app.use(morgan('dev'));
-    globalConfig._app.use(cors());
-    globalConfig._app.use(cookieParser());
-    globalConfig._app.use(express.json());
-    globalConfig._app.use(express.urlencoded({ limit: '40mb', extended: true }));
-    globalConfig._app.use(compression());
+    _webAppConfig.getServer().use(helmet());
+    _webAppConfig.getServer().use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+    _webAppConfig.getServer().use(morgan('dev'));
+    _webAppConfig.getServer().use(cors());
+    _webAppConfig.getServer().use(cookieParser());
+    _webAppConfig.getServer().use(express.json());
+    _webAppConfig.getServer().use(express.urlencoded({ limit: '40mb', extended: true }));
+    _webAppConfig.getServer().use(compression());
   }
 
   private initControllers() {
-    globalConfig._controllers.forEach((controller) => {
-      globalConfig._app.use(`/v1/api${controller.path}`, controller.router);
+    _webAppConfig.getControllers().forEach((controller) => {
+      _webAppConfig.getServer().use(`/v1/api${controller.path}`, controller.router);
     });
   }
 
@@ -52,10 +46,10 @@ class App {
     // initializing controllers
     this.initControllers();
 
-    globalConfig._app.use(errorConvertor);
-    globalConfig._app.use(errorHandler);
+    _webAppConfig.getServer().use(errorConvertor);
+    _webAppConfig.getServer().use(errorHandler);
 
-    globalConfig._app.listen(globalConfig._port, async () => {
+    _webAppConfig.getServer().listen(_webAppConfig.getServerConfig().getPort(), async () => {
       App.logger.info('Application is started and its up and running...');
     });
   }
