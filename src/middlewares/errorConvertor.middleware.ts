@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import ApiError from '../common/exception/ApiError';
 import { MongooseError } from 'mongoose';
+import { ApiError } from '../common';
 import httpStatus from 'http-status';
 
 export function errorConvertor(err: any, req: Request, res: Response, next: NextFunction) {

@@ -1,10 +1,8 @@
 import { errorConvertor } from './middlewares/errorConvertor.middleware';
-import MongoDBConnect from './common/datasource/mongoose-connect';
+import { _webAppConfig, MongoDBConnect, Logger } from './common';
 import { errorHandler } from './middlewares/error.middleware';
-import { _webAppConfig } from './common/configuration';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import Logger from './common/logger';
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
